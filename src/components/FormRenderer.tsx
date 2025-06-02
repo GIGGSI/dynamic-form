@@ -4,6 +4,7 @@ import type { FormSchema } from '../types/form';
 import TextField from './fields/TextField';
 import DropdownField from './fields/Dropdown';
 import TextAreaField from './fields/TextArea';
+import RadioField from './fields/RadioField';
 
 type Props = {
     schema: FormSchema;
@@ -48,6 +49,15 @@ export default function FormRenderer({ schema, onChange }: Props) {
                             value={values[field.name] || ''}
                             onChange={handleChange}
                         />;
+                    case 'radio':
+                        return (
+                            <RadioField
+                                key={field.name}
+                                field={field}
+                                value={values[field.name] || ''}
+                                onChange={handleChange}
+                            />
+                        );
                     default:
                         return null;
                 }

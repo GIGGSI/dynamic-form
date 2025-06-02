@@ -18,6 +18,12 @@ const exampleSchema: FormSchema = {
       type: 'textarea',
       label: 'Comments',
       name: 'comments',
+    },
+    {
+      type: 'radio',
+      label: 'Identification Type',
+      name: 'idType',
+      options: ['PERSONAL ID', 'PASSPORT'],
     }
   ]
 };
