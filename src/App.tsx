@@ -14,6 +14,11 @@ const exampleSchema: FormSchema = {
       name: 'userType',
       options: ['INDIVIDUAL', 'BUSINESS'],
     },
+    {
+      type: 'textarea',
+      label: 'Comments',
+      name: 'comments',
+    }
   ]
 };
 

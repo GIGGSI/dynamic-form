@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Box } from '@mui/material';
-import type { FormSchema, Field } from '../types/form';
+import type { FormSchema } from '../types/form';
 import TextField from './fields/TextField';
 import DropdownField from './fields/Dropdown';
+import TextAreaField from './fields/TextArea';
 
 type Props = {
     schema: FormSchema;
@@ -40,6 +41,13 @@ export default function FormRenderer({ schema, onChange }: Props) {
                                 onChange={handleChange}
                             />
                         );
+                    case 'textarea':
+                        return <TextAreaField
+                            key={field.name}
+                            field={field}
+                            value={values[field.name] || ''}
+                            onChange={handleChange}
+                        />;
                     default:
                         return null;
                 }

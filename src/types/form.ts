@@ -17,4 +17,11 @@ export type DropdownFieldType = FieldBase & {
     options: string[];
 };
 
-export type Field = TextFieldType | DropdownFieldType;
+export type TextAreaFieldType = FieldBase & {
+    type: 'textarea';
+};
+
+export type Field =
+    | TextFieldType
+    | DropdownFieldType
+    | TextAreaFieldType;
