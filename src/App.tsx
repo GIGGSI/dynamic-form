@@ -8,6 +8,12 @@ const exampleSchema: FormSchema = {
     { type: 'text', label: 'First Name', name: 'firstName' },
     { type: 'text', label: 'Last Name', name: 'lastName' },
     { type: 'text', label: 'Email', name: 'email' },
+    {
+      type: 'dropdown',
+      label: 'User Type',
+      name: 'userType',
+      options: ['INDIVIDUAL', 'BUSINESS'],
+    },
   ]
 };
 

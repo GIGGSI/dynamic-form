@@ -8,8 +8,13 @@ export type TextFieldType = FieldBase & {
     type: 'text';
 };
 
-export type Field = TextFieldType;
 
 export type FormSchema = {
     fields: Field[];
 };
+export type DropdownFieldType = FieldBase & {
+    type: 'dropdown';
+    options: string[];
+};
+
+export type Field = TextFieldType | DropdownFieldType;
