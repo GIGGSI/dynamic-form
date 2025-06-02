@@ -6,6 +6,7 @@ import DropdownField from './fields/Dropdown';
 import TextAreaField from './fields/TextArea';
 import RadioField from './fields/RadioField';
 import CheckboxField from './fields/CheckboxField';
+import { isFieldVisible } from '../utils/visibility';
 
 type Props = {
     schema: FormSchema;
@@ -24,6 +25,8 @@ export default function FormRenderer({ schema, onChange }: Props) {
     return (
         <Box display="flex" flexDirection="column" gap={2}>
             {schema.fields.map((field) => {
+                if (!isFieldVisible(field, values)) return null;
+
                 switch (field.type) {
                     case 'text':
                         return (

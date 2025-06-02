@@ -2,6 +2,10 @@ export type FieldBase = {
     type: string;
     label: string;
     name: string;
+    visibleIf?: {
+        field: string;
+        equals: string;
+    };
 };
 
 export type FormSchema = {

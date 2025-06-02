@@ -49,7 +49,23 @@ const exampleSchema: FormSchema = {
           }
         }
       }
+    },
+    {
+      type: 'dropdown',
+      label: 'User Type',
+      name: 'userType',
+      options: ['INDIVIDUAL', 'BUSINESS']
+    },
+    {
+      type: 'text',
+      label: 'Company Name',
+      name: 'companyName',
+      visibleIf: {
+        field: 'userType',
+        equals: 'BUSINESS'
+      }
     }
+
 
   ]
 };
