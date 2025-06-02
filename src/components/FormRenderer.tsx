@@ -32,6 +32,7 @@ export default function FormRenderer({ schema, onChange }: Props) {
                                 field={field}
                                 value={values[field.name] || ''}
                                 onChange={handleChange}
+                                allValues={values}
                             />
                         );
                     case 'dropdown':

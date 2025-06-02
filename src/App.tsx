@@ -29,7 +29,26 @@ const exampleSchema: FormSchema = {
       type: 'checkbox',
       label: 'I accept the terms and conditions',
       name: 'agree',
+    },
+    {
+      type: 'text',
+      label: 'Identification Number',
+      name: 'idNumber',
+      validation: {
+        dependsOn: {
+          field: 'idType',
+          rules: {
+            'PERSONAL ID': {
+              pattern: '^[0-9]{10}$'
+            },
+            PASSPORT: {
+              pattern: '^[A-Z0-9]{6,9}$'
+            }
+          }
+        }
+      }
     }
+
   ]
 };
 

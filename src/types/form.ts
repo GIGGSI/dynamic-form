@@ -10,7 +10,20 @@ export type FormSchema = {
 
 export type TextFieldType = FieldBase & {
     type: 'text';
-};
+    validation?: {
+      required?: boolean;
+      pattern?: string;
+      dependsOn?: {
+        field: string;
+        rules: {
+          [value: string]: {
+            required?: boolean;
+            pattern?: string;
+          };
+        };
+      };
+    };
+  };
 
 export type DropdownFieldType = FieldBase & {
     type: 'dropdown';
