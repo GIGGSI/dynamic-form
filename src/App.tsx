@@ -39,10 +39,12 @@ const exampleSchema: FormSchema = {
           field: 'idType',
           rules: {
             'PERSONAL ID': {
-              pattern: '^[0-9]{10}$'
+              pattern: '^[0-9]{10}$',
+              message: 'Must be exactly 10 digits',
             },
             PASSPORT: {
-              pattern: '^[A-Z0-9]{6,9}$'
+              pattern: '^[A-Z0-9]{6,9}$',
+              message: 'Must be 6–9 uppercase letters or numbers',
             }
           }
         }
