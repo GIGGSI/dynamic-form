@@ -1,35 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Container, Typography } from '@mui/material';
+import FormRenderer from './components/FormRenderer';
+import { useState } from 'react';
+import type { FormSchema } from './types/form';
 
-function App() {
-  const [count, setCount] = useState(0)
+const exampleSchema: FormSchema = {
+  fields: [
+    { type: 'text', label: 'First Name', name: 'firstName' },
+    { type: 'text', label: 'Last Name', name: 'lastName' },
+    { type: 'text', label: 'Email', name: 'email' },
+  ]
+};
+
+export default function App() {
+  const [formData, setFormData] = useState({});
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
-
-export default App
+    <Container sx={{ py: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        Dynamic Form
+      </Typography>
+      <FormRenderer schema={exampleSchema} onChange={setFormData} />
+      <Typography variant="h6" mt={4}>
+        Output:
+      </Typography>
+      <pre>{JSON.stringify(formData, null, 2)}</pre>
+    </Container>
+  );
+}   
