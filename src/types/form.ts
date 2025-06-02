@@ -26,8 +26,13 @@ export type RadioFieldType = FieldBase & {
     options: string[];
 };
 
+export type CheckboxFieldType = FieldBase & {
+    type: 'checkbox';
+};
+
 export type Field =
     | TextFieldType
     | DropdownFieldType
     | TextAreaFieldType
-    | RadioFieldType;
+    | RadioFieldType
+    | CheckboxFieldType;

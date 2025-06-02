@@ -24,6 +24,11 @@ const exampleSchema: FormSchema = {
       label: 'Identification Type',
       name: 'idType',
       options: ['PERSONAL ID', 'PASSPORT'],
+    },
+    {
+      type: 'checkbox',
+      label: 'I accept the terms and conditions',
+      name: 'agree',
     }
   ]
 };

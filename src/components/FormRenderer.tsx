@@ -5,6 +5,7 @@ import TextField from './fields/TextField';
 import DropdownField from './fields/Dropdown';
 import TextAreaField from './fields/TextArea';
 import RadioField from './fields/RadioField';
+import CheckboxField from './fields/CheckboxField';
 
 type Props = {
     schema: FormSchema;
@@ -55,6 +56,15 @@ export default function FormRenderer({ schema, onChange }: Props) {
                                 key={field.name}
                                 field={field}
                                 value={values[field.name] || ''}
+                                onChange={handleChange}
+                            />
+                        );
+                    case 'checkbox':
+                        return (
+                            <CheckboxField
+                                key={field.name}
+                                field={field}
+                                value={values[field.name] || false}
                                 onChange={handleChange}
                             />
                         );
