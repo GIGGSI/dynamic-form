@@ -49,9 +49,15 @@ export type CheckboxFieldType = FieldBase & {
     type: 'checkbox';
 };
 
+export type GroupFieldType = FieldBase & {
+    type: 'group';
+    fields: Field[];
+};
+
 export type Field =
     | TextFieldType
     | DropdownFieldType
     | TextAreaFieldType
     | RadioFieldType
-    | CheckboxFieldType;
+    | CheckboxFieldType
+    | GroupFieldType;

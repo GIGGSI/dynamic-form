@@ -57,15 +57,26 @@ const exampleSchema: FormSchema = {
       options: ['INDIVIDUAL', 'BUSINESS']
     },
     {
-      type: 'text',
-      label: 'Company Name',
-      name: 'companyName',
+      type: 'group',
+      label: 'Business Details',
+      name: 'businessDetails',
       visibleIf: {
         field: 'userType',
         equals: 'BUSINESS'
-      }
+      },
+      fields: [
+        {
+          type: 'text',
+          label: 'Company Name',
+          name: 'companyName'
+        },
+        {
+          type: 'text',
+          label: 'EIK',
+          name: 'companyEIK'
+        }
+      ]
     }
-
 
   ]
 };

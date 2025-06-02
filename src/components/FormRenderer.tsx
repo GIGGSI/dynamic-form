@@ -6,15 +6,20 @@ import DropdownField from './fields/Dropdown';
 import TextAreaField from './fields/TextArea';
 import RadioField from './fields/RadioField';
 import CheckboxField from './fields/CheckboxField';
+import FormGroup from './fields/FormGroup';
+
 import { isFieldVisible } from '../utils/visibility';
 
 type Props = {
     schema: FormSchema;
     onChange: (data: Record<string, any>) => void;
+    parentValues?: Record<string, any>;      // ✅ Optional parent values (group support)
+    parentAllValues?: Record<string, any>;   // ✅ Optional full form values
 };
 
-export default function FormRenderer({ schema, onChange }: Props) {
-    const [values, setValues] = useState<Record<string, any>>({});
+
+export default function FormRenderer({ schema, onChange, parentValues, parentAllValues }: Props) {
+    const [values, setValues] = useState<Record<string, any>>(parentValues || {});
 
     const handleChange = (name: string, value: any) => {
         const updated = { ...values, [name]: value };
@@ -35,8 +40,8 @@ export default function FormRenderer({ schema, onChange }: Props) {
                                 field={field}
                                 value={values[field.name] || ''}
                                 onChange={handleChange}
-                                allValues={values}
-                            />
+                                allValues={parentAllValues || values}
+                                />
                         );
                     case 'dropdown':
                         return (
@@ -72,6 +77,16 @@ export default function FormRenderer({ schema, onChange }: Props) {
                                 onChange={handleChange}
                             />
                         );
+                    case 'group':
+                        return (
+                            <FormGroup
+                                key={field.name}
+                                field={field}
+                                value={values[field.name]}
+                                onChange={handleChange}
+                                allValues={parentAllValues || values}
+                                />
+                        )
                     default:
                         return null;
                 }
