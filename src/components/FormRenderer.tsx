@@ -12,7 +12,7 @@ import FormActionButton from './FormActionButton';
 import { isFieldVisible } from '../utils/visibility';
 
 import { hasValidationErrors } from '../utils/hasValidationErrors';
-import hasEmptyRequiredFields  from '../utils/hasEmptyRequiredFields';
+import hasEmptyRequiredFields from '../utils/hasEmptyRequiredFields';
 
 
 import PreviewBlock from './PreviewBlock';
@@ -41,16 +41,16 @@ export default function FormRenderer({ schema, onChange, parentValues, parentAll
     const handleSubmit = (e?: React.FormEvent | React.MouseEvent) => {
         e?.preventDefault();
         setSubmitted(true);
-      
+
         if (hasValidationErrors(schema, values)) {
-          console.warn('Validation failed, submission blocked.');
-          return;
+            console.warn('Validation failed, submission blocked.');
+            return;
         }
-      
+
         setSubmittedData(values);
         onChange(values);
-      };
-      
+    };
+
 
     const isSubmitDisabled = hasEmptyRequiredFields(schema, values);
     const content = (
@@ -131,9 +131,7 @@ export default function FormRenderer({ schema, onChange, parentValues, parentAll
                     label="Submit"
                 />
             )}
-
             {!hideSubmitButton && submittedData && <PreviewBlock data={submittedData} />}
-
         </Box>
     )
 
