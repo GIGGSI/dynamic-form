@@ -1,4 +1,4 @@
-import { Paper, Typography, Box } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import type { GroupFieldType } from '../../types/form';
 import FormRenderer from '../FormRenderer';
 
@@ -17,7 +17,15 @@ export default function FormGroup({ field, value = {}, onChange, allValues }: Pr
   return (
     <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
       <Typography variant="h6" gutterBottom>{field.label}</Typography>
-      <FormRenderer schema={{ fields: field.fields }} onChange={handleGroupChange} parentValues={value} parentAllValues={allValues} />
+      <FormRenderer
+        schema={{ fields: field.fields }}
+        onChange={handleGroupChange}
+        parentValues={value}
+        parentAllValues={allValues}
+        disableFormWrapper
+        hideSubmitButton
+      />
+
     </Paper>
   );
 }

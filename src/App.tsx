@@ -5,30 +5,42 @@ import type { FormSchema } from './types/form';
 
 const exampleSchema: FormSchema = {
   fields: [
-    { type: 'text', label: 'First Name', name: 'firstName' },
+    {
+      type: 'text', label: 'First Name', name: 'firstName',
+      validation: {
+        required: true,
+        message: 'First name is required'
+      }
+    },
     { type: 'text', label: 'Last Name', name: 'lastName' },
     { type: 'text', label: 'Email', name: 'email' },
-    {
-      type: 'dropdown',
-      label: 'User Type',
-      name: 'userType',
-      options: ['INDIVIDUAL', 'BUSINESS'],
-    },
     {
       type: 'textarea',
       label: 'Comments',
       name: 'comments',
+      validation: {
+        required: true,
+        message: 'About section is required'
+      }
     },
     {
       type: 'radio',
       label: 'Identification Type',
       name: 'idType',
       options: ['PERSONAL ID', 'PASSPORT'],
+      validation: {
+        required: true,
+        message: 'About section is required'
+      }
     },
     {
       type: 'checkbox',
       label: 'I accept the terms and conditions',
       name: 'agree',
+      validation: {
+        required: true,
+        message: 'This field is required'
+      }
     },
     {
       type: 'text',
@@ -39,10 +51,12 @@ const exampleSchema: FormSchema = {
           field: 'idType',
           rules: {
             'PERSONAL ID': {
+              required: true,
               pattern: '^[0-9]{10}$',
               message: 'Must be exactly 10 digits',
             },
             PASSPORT: {
+              required: true,
               pattern: '^[A-Z0-9]{6,9}$',
               message: 'Must be 6–9 uppercase letters or numbers',
             }
@@ -54,7 +68,11 @@ const exampleSchema: FormSchema = {
       type: 'dropdown',
       label: 'User Type',
       name: 'userType',
-      options: ['INDIVIDUAL', 'BUSINESS']
+      options: ['INDIVIDUAL', 'BUSINESS'],
+      validation: {
+        required: true,
+        message: 'About section is required'
+      }
     },
     {
       type: 'group',
