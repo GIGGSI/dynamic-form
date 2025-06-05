@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Box } from '@mui/material';
 import type { FormSchema } from '../types/form';
+
+import { Box } from '@mui/material';
+
 import TextField from './fields/TextField';
 import DropdownField from './fields/Dropdown';
 import TextAreaField from './fields/TextArea';
@@ -13,9 +15,11 @@ import { isFieldVisible } from '../utils/visibility';
 
 import { hasValidationErrors } from '../utils/hasValidationErrors';
 import hasEmptyRequiredFields from '../utils/hasEmptyRequiredFields';
+import { submitFormMock } from '../api/mockSubmit';
 
 
-import PreviewBlock from './PreviewBlock';
+import PreviewModal from './PreviewModal';
+import LoadingSpinner from './LoadingSpinner';
 
 type Props = {
     schema: FormSchema;
@@ -31,6 +35,9 @@ export default function FormRenderer({ schema, onChange, parentValues, parentAll
     const [values, setValues] = useState<Record<string, any>>(parentValues || {});
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [submittedData, setSubmittedData] = useState<Record<string, any> | null>(null);
+    const [openModal, setOpenModal] = useState<boolean>(false);
+    const [showSpinner, setShowSpinner] = useState(false);
+    const [formHidden, setFormHidden] = useState(false);
 
     const handleChange = (name: string, value: any) => {
         const updated = { ...values, [name]: value };
@@ -38,7 +45,7 @@ export default function FormRenderer({ schema, onChange, parentValues, parentAll
         onChange(updated);
     };
 
-    const handleSubmit = (e?: React.FormEvent | React.MouseEvent) => {
+    const handleSubmit = async (e?: React.FormEvent | React.MouseEvent) => {
         e?.preventDefault();
         setSubmitted(true);
 
@@ -46,16 +53,34 @@ export default function FormRenderer({ schema, onChange, parentValues, parentAll
             console.warn('Validation failed, submission blocked.');
             return;
         }
+        setShowSpinner(true);
+        setFormHidden(true);
 
-        setSubmittedData(values);
-        onChange(values);
+        try {
+            const response = await submitFormMock(values)
+            if (response.success) {
+                setSubmittedData(values);
+
+                setTimeout(() => {
+                    setOpenModal(true);
+                }, 300);
+
+                setShowSpinner(false);
+                setSubmittedData(values);
+                onChange(values);
+                setValues({})
+
+            }
+        } catch (err) {
+            console.error('Form submission failed', err);
+        }
     };
-
 
     const isSubmitDisabled = hasEmptyRequiredFields(schema, values);
     const content = (
         <Box display="flex" flexDirection="column" gap={2}>
-            {schema.fields.map((field) => {
+
+            {!formHidden && schema.fields.map((field) => {
                 if (!isFieldVisible(field, values)) return null;
 
                 switch (field.type) {
@@ -122,8 +147,7 @@ export default function FormRenderer({ schema, onChange, parentValues, parentAll
                         return null;
                 }
             })}
-
-            {!hideSubmitButton && (
+            {!formHidden && !hideSubmitButton && (
                 <FormActionButton
                     onClick={handleSubmit}
                     disabled={isSubmitDisabled}
@@ -131,10 +155,28 @@ export default function FormRenderer({ schema, onChange, parentValues, parentAll
                     label="Submit"
                 />
             )}
-            {!hideSubmitButton && submittedData && <PreviewBlock data={submittedData} />}
-        </Box>
+
+            {
+                showSpinner && (
+                    <Box display="flex" justifyContent="center" mt={2}>
+                        <LoadingSpinner label='' />
+                    </Box>
+                )
+            }
+
+        </Box >
     )
 
-    return disableFormWrapper ? content : <form onSubmit={handleSubmit}>{content}</form>;
+    return disableFormWrapper ? content : (
+        <form onSubmit={handleSubmit}>
+            {content}
+            <PreviewModal
+                open={openModal}
+                onClose={() => setOpenModal(false)}
+                data={submittedData}
+            />
+        </form>
+    );
+
 
 }

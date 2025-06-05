@@ -14,7 +14,6 @@ export default function FormLoader() {
     const [jsonInput, setJsonInput] = useState<string>('');
     const [parsedSchema, setParsedSchema] = useState<FormSchema | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const [formData, setFormData] = useState<Record<string, any> | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleRenderForm = () => {
@@ -27,7 +26,6 @@ export default function FormLoader() {
 
             setParsedSchema(parsed);
             setError(null);
-            setFormData(null);
 
             setTimeout(() => {
                 setParsedSchema(parsed);
@@ -72,14 +70,8 @@ export default function FormLoader() {
                 <Box mt={4}>
                     <FormRenderer
                         schema={parsedSchema}
-                        onChange={(data) => setFormData(data)}
+                        onChange={() => {}}
                     />
-                    {formData && (
-                        <Box mt={3}>
-                            <Typography variant="subtitle1" gutterBottom>Submitted Data:</Typography>
-                            <pre>{JSON.stringify(formData, null, 2)}</pre>
-                        </Box>
-                    )}
                 </Box>
             )}
         </Box>
