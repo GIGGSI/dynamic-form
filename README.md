@@ -1,54 +1,151 @@
-# React + TypeScript + Vite
+# Dynamic Form Builder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A dynamic, schema-driven form generator built with React, TypeScript, and Material UI.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Render forms dynamically from JSON schemas
+- Field types: `text`, `textarea`, `dropdown`, `radio`, `checkbox`, `group`
+- Conditional visibility with `visibleIf`
+- Validations (required, regex, dependent rules)
+- Modal preview of submitted data
+- Mock API integration (company lookup)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+ 1. Install dependencies
+npm install
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
+2. Run the development server
+npm run dev
+
+3. Build for production
+npm run build
+
+Example Input JSON Schemas
+Basic Form:
+{
+  "fields": [
+    {
+      "type": "text",
+      "label": "First Name",
+      "name": "firstName",
+      "validation": {
+        "required": true,
+        "message": "First name is required"
+      }
     },
-  },
-})
-```
+    {
+      "type": "textarea",
+      "label": "About",
+      "name": "about",
+      "validation": {
+        "required": true,
+        "message": "About section is required"
+      }
+    }
+  ]
+}
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Conditional + Dependent Validation
+{
+  "fields": [
+    {
+      "type": "radio",
+      "label": "Identification Type",
+      "name": "idType",
+      "options": ["PERSONAL ID", "PASSPORT"],
+      "validation": {
+        "required": true,
+        "message": "Please select identification type"
+      }
+    },
+    {
+      "type": "text",
+      "label": "Identification Number",
+      "name": "idNumber",
+      "validation": {
+        "dependsOn": {
+          "field": "idType",
+          "rules": {
+            "PERSONAL ID": {
+              "required": true,
+              "pattern": "^[0-9]{10}$",
+              "message": "Must be exactly 10 digits"
+            },
+            "PASSPORT": {
+              "required": true,
+              "pattern": "^[A-Z0-9]{6,9}$",
+              "message": "Must be 6–9 uppercase letters or numbers"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Group Fields + Mock API
+{
+  "fields": [
+    {
+      "type": "dropdown",
+      "label": "User Type",
+      "name": "userType",
+      "options": ["INDIVIDUAL", "BUSINESS"],
+      "validation": {
+        "required": true,
+        "message": "User type is required"
+      }
+    },
+    {
+      "type": "group",
+      "label": "Business Details",
+      "name": "businessDetails",
+      "visibleIf": {
+        "field": "userType",
+        "equals": "BUSINESS"
+      },
+      "fields": [
+        {
+          "type": "dropdown",
+          "label": "Company Name",
+          "name": "companyName"
+        },
+        {
+          "type": "text",
+          "label": "Company EIK",
+          "name": "companyEIK"
+        }
+      ]
+    }
+  ]
+}
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+How It Works
+ * Paste the JSON schema into the FormLoader textarea.
+ * Click Render Form.
+ * The form is generated dynamically.
+
+  On submission:
+ * A spinner briefly appears.
+ * Then, a modal displays the submitted JSON data.
+ * Form resets after closing the modal.
+
+
+Technologies:
+ React 19
+ TypeScript
+ Material UI
+ Vite
+
+Project Structure
+src/
+  ├── components/
+  │   ├── fields/          # All form field components
+  │   ├── FormRenderer.tsx # Core form renderer logic
+  │   ├── FormLoader.tsx   # Paste JSON and render
+  │   └── PreviewModal.tsx # Modal for showing submitted data
+  ├── api/                 # Mock API fetch for companies
+  ├── types/               # Shared TypeScript types
+  └── utils/               # Validation and visibility logic
