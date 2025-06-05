@@ -2,6 +2,7 @@ import { Container, Typography } from '@mui/material';
 import FormRenderer from './components/FormRenderer';
 import { useState } from 'react';
 import type { FormSchema } from './types/form';
+import FormLoader from './components/FormLoader';
 
 const exampleSchema: FormSchema = {
   fields: [
@@ -104,14 +105,15 @@ export default function App() {
 
   return (
     <Container sx={{ py: 4 }}>
-      <Typography variant="h4" gutterBottom>
+      {/* <Typography variant="h4" gutterBottom>
         Dynamic Form
       </Typography>
       <FormRenderer schema={exampleSchema} onChange={setFormData} />
       <Typography variant="h6" mt={4}>
         Output:
       </Typography>
-      <pre>{JSON.stringify(formData, null, 2)}</pre>
+      <pre>{JSON.stringify(formData, null, 2)}</pre> */}
+      <FormLoader />
     </Container>
   );
 }   
