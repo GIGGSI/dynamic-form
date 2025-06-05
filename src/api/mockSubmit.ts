@@ -3,7 +3,7 @@ export async function submitFormMock(data: Record<string, any>): Promise<{ succe
       setTimeout(() => {
         console.log('Form submitted to mock API:', data);
         resolve({ success: true });
-      }, 1500); // simulate network delay
+      }, 1500); 
     });
   }
   

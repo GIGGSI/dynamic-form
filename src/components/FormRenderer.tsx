@@ -24,6 +24,7 @@ import LoadingSpinner from './LoadingSpinner';
 type Props = {
     schema: FormSchema;
     onChange: (data: Record<string, any>) => void;
+    onSubmit?: (data: Record<string, any>) => void; // <-- ✅ Add this line
     parentValues?: Record<string, any>;
     parentAllValues?: Record<string, any>;
     disableFormWrapper?: boolean;
@@ -31,7 +32,7 @@ type Props = {
 };
 
 
-export default function FormRenderer({ schema, onChange, parentValues, parentAllValues, disableFormWrapper, hideSubmitButton }: Props) {
+export default function FormRenderer({ schema, onChange, onSubmit, parentValues, parentAllValues, disableFormWrapper, hideSubmitButton }: Props) {
     const [values, setValues] = useState<Record<string, any>>(parentValues || {});
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [submittedData, setSubmittedData] = useState<Record<string, any> | null>(null);
@@ -69,6 +70,9 @@ export default function FormRenderer({ schema, onChange, parentValues, parentAll
                 setSubmittedData(values);
                 onChange(values);
                 setValues({})
+                if (onSubmit) {
+                    onSubmit(values); 
+                }
 
             }
         } catch (err) {
