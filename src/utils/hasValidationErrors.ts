@@ -1,4 +1,5 @@
 import type { FormSchema } from '../types/form';
+import { isFieldEmpty } from './isFieldEmpty';
 
 function hasValidation(field: any): field is { validation?: any } {
   return 'validation' in field;
@@ -20,7 +21,7 @@ export const hasValidationErrors = (
     }
 
     if (hasValidation(field)) {
-      if (field.validation?.required && (value === undefined || value === '' || value === null)) {
+      if (isFieldEmpty(field, value)) {
         return true;
       }
 

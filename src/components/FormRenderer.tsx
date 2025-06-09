@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { useState } from 'react';
 import type { FormSchema } from '../types/form';
 
@@ -24,7 +26,7 @@ import LoadingSpinner from './LoadingSpinner';
 type Props = {
     schema: FormSchema;
     onChange: (data: Record<string, any>) => void;
-    onSubmit?: (data: Record<string, any>) => void; // <-- ✅ Add this line
+    onSubmit?: (data: Record<string, any>) => void;
     parentValues?: Record<string, any>;
     parentAllValues?: Record<string, any>;
     disableFormWrapper?: boolean;
